@@ -1,0 +1,42 @@
+package com.thoughtworks.training.wukun.todoservice.controller;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.thoughtworks.training.wukun.todoservice.model.ToDo;
+import com.thoughtworks.training.wukun.todoservice.service.ToDoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class ToDoAPI {
+
+    @Autowired
+    private ToDoService todoService;
+
+
+    @GetMapping("/todos")
+    public List<ToDo> list() {
+        List<ToDo> list = todoService.list();
+        return list;
+    }
+
+    @PostMapping("/todos")
+    public void create(@RequestBody ToDo todo) {
+        todoService.create(todo);
+    }
+
+    @GetMapping("/todos/{id}")
+    public ToDo list(@PathVariable Integer id) throws JsonProcessingException {
+        return todoService.find(id);
+    }
+    @DeleteMapping("/todos/{id}")
+    public void delete(@PathVariable Integer id) {
+        todoService.delete(id);
+    }
+}
