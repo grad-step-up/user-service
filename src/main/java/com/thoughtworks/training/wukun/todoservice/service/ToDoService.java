@@ -2,8 +2,10 @@ package com.thoughtworks.training.wukun.todoservice.service;
 
 import com.thoughtworks.training.wukun.todoservice.exception.NotFoundException;
 import com.thoughtworks.training.wukun.todoservice.model.ToDo;
+import com.thoughtworks.training.wukun.todoservice.model.User;
 import com.thoughtworks.training.wukun.todoservice.repository.ToDoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,7 +18,8 @@ public class ToDoService {
     private ToDoRepository todoRepository;
 
     public List<ToDo> list() {
-        return todoRepository.findAll();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return todoRepository.findAllByUserId(user.getId());
     }
 
     @Transactional

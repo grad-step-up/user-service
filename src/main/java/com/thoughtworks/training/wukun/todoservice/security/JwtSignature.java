@@ -28,9 +28,9 @@ public class JwtSignature implements Serializable {
     }
 
 
-    public String getUserName(String token) {
+    public Integer getUserName(String token) {
         Claims claims = getClaimsFromToken(token);
-        return Optional.ofNullable(claims.get("user", String.class))
+        return Optional.ofNullable(claims.get("userId", Integer.class))
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user fron jwt token"));
     }
 

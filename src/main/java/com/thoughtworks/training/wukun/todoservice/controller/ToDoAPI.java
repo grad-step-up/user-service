@@ -5,8 +5,6 @@ import com.thoughtworks.training.wukun.todoservice.model.ToDo;
 import com.thoughtworks.training.wukun.todoservice.service.ToDoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +24,7 @@ public class ToDoAPI {
 
     @GetMapping("/todos")
     public List<ToDo> list() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("credential: {} {}", authentication.getPrincipal(), authentication.getAuthorities());
-        List<ToDo> list = todoService.list();
-        return list;
+        return todoService.list();
     }
 
     @PostMapping("/todos")

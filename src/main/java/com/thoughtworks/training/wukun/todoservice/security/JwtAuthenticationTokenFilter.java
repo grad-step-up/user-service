@@ -1,11 +1,12 @@
 package com.thoughtworks.training.wukun.todoservice.security;
 
+import com.google.common.collect.ImmutableList;
+import com.thoughtworks.training.wukun.todoservice.model.User;
+import com.thoughtworks.training.wukun.todoservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.thymeleaf.util.StringUtils;
@@ -21,20 +22,24 @@ import java.util.Optional;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserService userService;
 
     @Autowired
     private JwtSignature jwtSignature;
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getServletPath().startsWith("/login");
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             getTokenFromRequest(request).ifPresent(token -> {
-                String userName = jwtSignature.getUserName(token);
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
+                Integer userId = jwtSignature.getUserName(token);
+                User user = userService.getUser(userId);
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-                        userDetails.getUsername(), null, userDetails.getAuthorities()
+                        user, null, ImmutableList.of()
                 ));
             });
         } catch (RuntimeException e) {
