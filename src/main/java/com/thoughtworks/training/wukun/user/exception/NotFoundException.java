@@ -1,4 +1,4 @@
-package com.thoughtworks.training.wukun.todoservice.exception;
+package com.thoughtworks.training.wukun.user.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

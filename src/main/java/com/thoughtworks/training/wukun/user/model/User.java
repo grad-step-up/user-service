@@ -1,5 +1,6 @@
-package com.thoughtworks.training.wukun.todoservice.model;
+package com.thoughtworks.training.wukun.user.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,20 +10,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
-public class Task {
+public class User {
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String content;
+    private String name;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "todo_id")
-//    @JsonIgnore
-//    private ToDo toDo;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 }
+
+

@@ -1,4 +1,4 @@
-package com.thoughtworks.training.wukun.todoservice;
+package com.thoughtworks.training.wukun.user;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ToDoServiceApplicationTests {
+public class UserServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {
