@@ -28,15 +28,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private JwtSignature jwtSignature;
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().startsWith("/login");
-    }
-
-    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             getTokenFromRequest(request).ifPresent(token -> {
-                Integer userId = jwtSignature.getUserName(token);
+                Integer userId = jwtSignature.getUserId(token);
                 User user = userService.getUser(userId);
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                         user, null, ImmutableList.of()

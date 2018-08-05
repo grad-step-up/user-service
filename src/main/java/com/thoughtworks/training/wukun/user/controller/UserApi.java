@@ -6,6 +6,7 @@ import com.thoughtworks.training.wukun.user.security.Constants;
 import com.thoughtworks.training.wukun.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,15 @@ public class UserApi {
     @PostMapping("/users")
     public User create(@RequestBody User user) {
         return userService.create(user);
+    }
+
+    @PostMapping("/verifications")
+    public ResponseEntity verifyToken(@RequestBody String token) {
+        try {
+            return ResponseEntity.ok(userService.getUserByToken(token));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 
     @GetMapping("/users")

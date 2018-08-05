@@ -58,4 +58,9 @@ public class UserService {
     public Optional<User> findByUserName(String userName) {
         return userRepository.findByName(userName);
     }
+
+    public User getUserByToken(String token) {
+        Integer userId = jwtSignature.getUserId(token);
+        return getUser(userId);
+    }
 }
