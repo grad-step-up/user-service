@@ -24,6 +24,11 @@ public class User {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    public static User fromToken(String token) {
+        String[] userInfo = token.split(":");
+        return new User(Integer.valueOf(userInfo[0]), userInfo[1], "");
+    }
 }
 
 

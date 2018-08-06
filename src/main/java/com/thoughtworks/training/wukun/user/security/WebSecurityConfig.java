@@ -16,8 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    private InternalAuthenticationTokenFilter internalAuthenticationTokenFilter;
 
     @Autowired
     private UnauthorizedEntryPoint unauthorizedEntryPoint;
@@ -28,10 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users", "/login","/verifications").permitAll()
+                .antMatchers(HttpMethod.POST, "/users", "/login", "/verifications").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(internalAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint);
     }
 }

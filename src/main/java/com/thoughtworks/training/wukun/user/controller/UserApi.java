@@ -2,7 +2,6 @@ package com.thoughtworks.training.wukun.user.controller;
 
 import com.thoughtworks.training.wukun.user.dto.LoginRequest;
 import com.thoughtworks.training.wukun.user.model.User;
-import com.thoughtworks.training.wukun.user.security.Constants;
 import com.thoughtworks.training.wukun.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +24,7 @@ public class UserApi {
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         String token = userService.login(loginRequest);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, Constants.BEARER_TOKEN_PREFIX + token)
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .body(token);
     }
 

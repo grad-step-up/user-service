@@ -4,6 +4,7 @@ import com.thoughtworks.training.wukun.user.dto.LoginRequest;
 import com.thoughtworks.training.wukun.user.exception.NotFoundException;
 import com.thoughtworks.training.wukun.user.model.User;
 import com.thoughtworks.training.wukun.user.repository.UserRepository;
+import com.thoughtworks.training.wukun.user.security.Constants;
 import com.thoughtworks.training.wukun.user.security.JwtSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,7 +30,7 @@ public class UserService {
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new BadCredentialsException(String.format("wrong password"));
         }
-        return jwtSignature.generateToken(
+        return Constants.BEARER_TOKEN_PREFIX + jwtSignature.generateToken(
                 new LinkedHashMap<String, Object>() {{
                     put("userId", user.getId());
                 }}
